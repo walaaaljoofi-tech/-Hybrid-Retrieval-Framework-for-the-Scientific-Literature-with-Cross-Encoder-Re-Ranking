@@ -1,1 +1,50 @@
+# --------------------------------------------
+# 1. English stopwords + basic Arabic stopwords
+# --------------------------------------------
 
+STOPWORDS_EN = set("""
+the a an and or of for to in on at by with from is are were was be been
+this that these those as into about using use based
+""".split())
+
+STOPWORDS_AR = set("""
+من في على إلى التي الذي عن أن إن كان كانت تكون يكون هذا هذه ذلك تلك
+هو هي هم هن ثم حيث كما إذا إذ قد لقد لم لن لا ما
+""".split())
+
+
+def clean_text(text: str) -> str:
+    if not isinstance(text, str):
+        return ""
+
+    # --------------------------------------------
+    # 1) Convert English text to lowercase
+    # --------------------------------------------
+    text = text.lower()
+
+    # --------------------------------------------
+    # 2) Remove newline characters
+    # --------------------------------------------
+    text = text.replace("\n", " ")
+
+    # --------------------------------------------
+    # 3) Remove URLs
+    # --------------------------------------------
+    text = re.sub(r"http\S+|www\S+", " ", text)
+
+    # --------------------------------------------
+    # 4) Remove punctuation
+    # --------------------------------------------
+    text = text.translate(str.maketrans("", "", string.punctuation))
+
+    # --------------------------------------------
+    # 5) Remove non-Arabic/non-English characters
+    # --------------------------------------------
+    text = re.sub(r"[^\w\s\u0600-\u06FF]", " ", text)
+
+    # --------------------------------------------
+    # 6) Remove extra whitespace
+    # --------------------------------------------
+    text = re.sub(r"\s+", " ", text).strip()
+
+    return text
