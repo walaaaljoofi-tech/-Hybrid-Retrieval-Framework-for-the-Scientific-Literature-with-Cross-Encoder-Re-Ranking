@@ -1,0 +1,9 @@
+faiss-cpu
+sentence-transformers
+beir
+transformers
+torch
+tqdm
+numpy
+pandas
+rank-bm25
