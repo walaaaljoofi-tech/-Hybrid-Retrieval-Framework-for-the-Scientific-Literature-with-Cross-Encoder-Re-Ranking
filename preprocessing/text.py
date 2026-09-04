@@ -1,5 +1,20 @@
-# --------------------------------------------
-# 1. English stopwords + basic Arabic stopwords
+# Preparing document texts
+# ======================
+
+def build_doc_text(doc):
+    """We prefer title + abstract if available; otherwise, we use text."""
+    title = doc.get("title", "") or ""
+    abstract = doc.get("abstract", "") or ""
+    text = doc.get("text", "") or ""
+    if title or abstract:
+        return f"{title}. {abstract}".strip()
+    return text.strip()
+
+doc_ids = list(corpus.keys())
+doc_texts = [build_doc_text(corpus[did]) for did in doc_ids]
+docid_to_text = dict(zip(doc_ids, doc_texts))
+
+# English stopwords + basic Arabic stopwords
 # --------------------------------------------
 
 STOPWORDS_EN = set("""
@@ -48,3 +63,4 @@ def clean_text(text: str) -> str:
     text = re.sub(r"\s+", " ", text).strip()
 
     return text
+    
