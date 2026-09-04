@@ -63,4 +63,14 @@ def clean_text(text: str) -> str:
     text = re.sub(r"\s+", " ", text).strip()
 
     return text
-    
+   
+    def simple_tokenize(text: str):
+    return re.findall(r"[a-z0-9]+", str(text).lower())
+
+
+def build_doc_text_from_beir(doc: dict) -> str:
+    """Build document text from a BEIR SciFact document."""
+    title = doc.get("title", "")
+    text = doc.get("text", "")
+
+    return f"{title} {text}".strip()
